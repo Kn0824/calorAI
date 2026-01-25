@@ -1,0 +1,2 @@
+
+    @State var foodInput: String = ""
