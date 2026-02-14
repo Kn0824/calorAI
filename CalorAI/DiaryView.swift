@@ -15,6 +15,23 @@ struct DiaryView: View {
         Meal(type: .lunch, entries: []),
         Meal(type: .dinner, entries: [])
     ]
+    var currCal: Double {
+        meals.reduce(0) { $0 + $1.totalCalories }
+    }
+    var currProtein: Double {
+        meals.reduce(0) { $0 + $1.totalProtein }
+    }
+    var currCarbs: Double {
+        meals.reduce(0) { $0 + $1.totalCarbs }
+    }
+    var currFat: Double {
+        meals.reduce(0) { $0 + $1.totalFat }
+    }
+    var maxCal: Double
+    var maxProtein: Double
+    var maxCarbs: Double
+    var maxFat: Double
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -24,38 +41,31 @@ struct DiaryView: View {
                 
                 VStack {
                     // Calories
-                    Meters(curr: 1200, max: 2500, trackingMacro: "Calories")
+                    Meters(curr: currCal, max: maxCal, trackingMacro: "Calories")
                     HStack {
                         // Protein
-                        Meters(curr: 90, max: 180, trackingMacro: "Protein")
+                        Meters(curr: currProtein, max: maxProtein, trackingMacro: "Protein")
                         Spacer()
                         // Carbs
-                        Meters(curr: 150, max: 200, trackingMacro: "Carbs")
+                        Meters(curr: currCarbs, max: maxCarbs, trackingMacro: "Carbs")
                         Spacer()
                         // Fat
-                        Meters(curr: 50, max: 70, trackingMacro: "Fats")
+                        Meters(curr: currFat, max: maxFat, trackingMacro: "Fats")
                     }
                     .font(.caption)
                     .padding(.vertical, 10)
                     
-                    Divider()
-                        .rotationEffect(.degrees(90))
-                        .frame(width: 40)
-                        .foregroundColor(.white)
+                    
                     
                     ScrollView {
                         VStack(spacing: 16) {
                             ForEach($meals) { $meal in
-                                MealSection(
-                                    meal: $meal)
+                                MealSection(meal: $meal)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 12)
+                                            .fill(.gray)
+                                    )
                             }
-                            // Breakfast
-                            
-                            // Lunch
-                            
-                            // Dinner
-                            
-                            // Snacks
                         }
                     }
                     .foregroundColor(.white)
@@ -70,6 +80,6 @@ struct DiaryView: View {
 }
 
 #Preview {
-    DiaryView()
+    DiaryView(maxCal: 2500.0, maxProtein: 180.0, maxCarbs: 250.0, maxFat: 70.0)
 }
 

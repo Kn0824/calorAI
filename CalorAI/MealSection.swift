@@ -48,8 +48,15 @@ struct MealSection: View {
             // Entries
             ForEach(meal.entries) { entry in
                 FoodEntryRow(entry: entry, onDelete: {}, onModify: {})
+                    .background(
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color(red: 0.45, green: 0.45, blue: 0.45))
+                    )
+                    .padding(5)
             }
+            Spacer()
         }
+        
     }
 }
 

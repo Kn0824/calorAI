@@ -54,3 +54,11 @@ enum MealType: String {
     case snack = "Snack"
 }
 
+enum Sex: String, CaseIterable, Identifiable {
+    case male = "Male"
+    case female = "Female"
+    
+    var id: String { self.rawValue }
+}
+    
+
