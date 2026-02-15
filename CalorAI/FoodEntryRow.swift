@@ -9,8 +9,7 @@ import SwiftUI
 
 struct FoodEntryRow: View {
     var entry: FoodEntry
-    var onDelete: () -> Void
-    var onModify: () -> Void
+    //var onModify: () -> Void
    
     var body: some View {
         HStack {
@@ -59,10 +58,6 @@ struct FoodEntryRow: View {
                 
             }
             .foregroundColor(.blue)
-            Button("Delete") {
-                
-            }
-            .foregroundColor(.red)
         }
         .padding(20)
     }
@@ -77,12 +72,8 @@ struct FoodEntryRow: View {
             carbs: 0,
             fat: 3.6,
             grams: 100
-        ),
-        onDelete: {
-            print("Delete pressed")
-        },
-        onModify: {
-            print("Modify pressed")
-        }
+        )//,
+        //onModify: {
+        //}
     )
 }

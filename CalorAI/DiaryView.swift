@@ -8,13 +8,7 @@
 import SwiftUI
 
 struct DiaryView: View {
-    @State private var meals: [Meal] = [
-        Meal(type: .breakfast, entries: [
-            FoodEntry(name: "Oatmeal", calories: 150, protein: 5, carbs: 27, fat: 3, grams: 100)
-        ]),
-        Meal(type: .lunch, entries: []),
-        Meal(type: .dinner, entries: [])
-    ]
+    @Binding var meals: [Meal]
     var currCal: Double {
         meals.reduce(0) { $0 + $1.totalCalories }
     }
@@ -57,20 +51,26 @@ struct DiaryView: View {
                     
                     
                     
-                    ScrollView {
-                        VStack(spacing: 16) {
-                            ForEach($meals) { $meal in
-                                MealSection(meal: $meal)
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 12)
-                                            .fill(.gray)
-                                    )
-                            }
+                    
+                    List {
+                        ForEach($meals) { $meal in
+                            MealSection(
+                                meal: $meal
+                            )
+                            .background(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(.gray)
+                            )
                         }
+                        .listRowBackground(Color.clear)
+                        .listRowInsets(EdgeInsets())
                     }
-                    .foregroundColor(.white)
+                    .listStyle(.plain)
+                    .scrollContentBackground(.hidden)
+                    .background(.clear)
+                    /*.foregroundColor(.white)
                     .padding(.horizontal, 10)
-                    .padding(.vertical, 20)
+                    .padding(.vertical, 20)*/
                 }
                 .foregroundColor(.white)
             }
@@ -80,6 +80,13 @@ struct DiaryView: View {
 }
 
 #Preview {
-    DiaryView(maxCal: 2500.0, maxProtein: 180.0, maxCarbs: 250.0, maxFat: 70.0)
+    @Previewable @State var meals: [Meal] = [
+        Meal(type: .breakfast, entries: [
+            FoodEntry(name: "Oatmeal", calories: 150, protein: 5, carbs: 27, fat: 3, grams: 100)
+        ]),
+        Meal(type: .lunch, entries: []),
+        Meal(type: .dinner, entries: [])
+    ]
+    DiaryView(meals: $meals, maxCal: 2500.0, maxProtein: 180.0, maxCarbs: 250.0, maxFat: 70.0)
 }
 

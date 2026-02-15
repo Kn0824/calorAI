@@ -9,8 +9,9 @@ import SwiftUI
 
 struct MealSection: View {
     @Binding var meal: Meal
+    //var onModifyEntry: (FoodEntry) -> Void
     var body: some View {
-        VStack {
+        Section() {
             // Meal summary
             HStack {
                 Spacer()
@@ -47,13 +48,17 @@ struct MealSection: View {
             .font(.headline)
             // Entries
             ForEach(meal.entries) { entry in
-                FoodEntryRow(entry: entry, onDelete: {}, onModify: {})
+                FoodEntryRow(entry: entry
+                            // , onModify: {}
+                )
                     .background(
                         RoundedRectangle(cornerRadius: 12)
                             .fill(Color(red: 0.45, green: 0.45, blue: 0.45))
                     )
                     .padding(5)
             }
+            .onDelete { offsets in
+                meal.entries.remove(atOffsets: offsets)}
             Spacer()
         }
         
@@ -69,5 +74,7 @@ struct MealSection: View {
         ]
     )
     
-    MealSection(meal: $meal)
+    MealSection(meal: $meal//,
+    //            onModifyEntry: {_ in}
+    )
 }

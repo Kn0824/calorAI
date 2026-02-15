@@ -10,13 +10,22 @@ import SwiftUI
 struct ContentView: View {
     @State var foodInput: String = ""
     @State var showSettings: Bool = false
-    @State var name: String = "Kevin"
-    @State var sex: String = "Male"
-    @State var age: Int = 23
-    @State var userHeight: Double = 187.0
-    @State var userWeight: Double = 85.0
-    @State var goalWeight: Double = 81.0
-    @State var activityLevel: Double = 1.55 // Moderately Active
+    @AppStorage("name") var name: String = "Kevin"
+    @AppStorage("sex") var sex: String = "Male"
+    @AppStorage("age") var age: Int = 23
+    @AppStorage("userHeight") var userHeight: Double = 187.0
+    @AppStorage("userWeight") var userWeight: Double = 85.0
+    @AppStorage("goalWeight") var goalWeight: Double = 81.0
+    @AppStorage("activityLevel") var activityLevel: Double = 1.55 // Moderately Active
+    
+    @State private var meals: [Meal] = [
+        Meal(type: .breakfast, entries: [
+            FoodEntry(name: "Oatmeal", calories: 150, protein: 5, carbs: 27, fat: 3, grams: 100)
+        ]),
+        Meal(type: .lunch, entries: []),
+        Meal(type: .dinner, entries: [])
+    ]
+    
     init() {
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -51,7 +60,7 @@ struct ContentView: View {
                     Label("Log", systemImage: "plus.circle.fill")
                 }
             DiaryView(
-                maxCal: userMacros.calories,
+                meals: $meals, maxCal: userMacros.calories,
                 maxProtein: userMacros.protein,
                 maxCarbs: userMacros.carbs,
                 maxFat: userMacros.fat
